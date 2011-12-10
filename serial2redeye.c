@@ -9,7 +9,10 @@ const char hello[] PROGMEM =\
 	"This is serial2redeye.\r\n"
 	"It sends received data to a HP82240A via Infrared.\r\n"
 	"It doesn't care about flow control, be sure not to overflow\r\n"
-	"either the AVR or the HP82240A buffer.";
+	"either the AVR or the HP82240A buffer.\r\n\r\n"
+	"If you receive a 'O' from this device, it means that\r\n"
+	"the internal buffer has overflowed!\r\n\r\n"
+	"https://github.com/vogelchr/\r\n$";
 
 int
 main(){
@@ -32,7 +35,9 @@ main(){
 
 	while(1){
 		if(UCSR0A & _BV(RXC0)){ /* received a byte */
-			avr_redeye_put(UDR0);
+			char c=UDR0;
+			if(avr_redeye_put(c))
+				serial_putchar('O');
 		}
 	}
 }
