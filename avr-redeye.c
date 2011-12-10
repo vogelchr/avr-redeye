@@ -191,16 +191,15 @@ avr_redeye_init(){
 	TIMSK0 = 0; /* no interrupts */
 	OCR0A  = 60; /* = TOP */
 	OCR0B  = 30; /* ~50% duty cycle */
+	turn_led_off();
 
-	//	TURN_ON_LED();
-
-	/* Timer/Counter 1 in CTC mode #14 without prescaler, CTC="Top"=3415 */
+	/* Timer/Counter 1 in CTC mode #14 without prescaler, CTC: ICR1=TOP */
 	/* clkIO without prescaler = 16 MHz */
 	TCCR1A = _BV(WGM11);
 	TCCR1B = _BV(CS10)|_BV(WGM12)|_BV(WGM13);
 	TCCR1C = 0;
 	TIMSK1 = _BV(TOIE1);
-	ICR1 = 3415;
+	ICR1 = 3417; /* 213.623us * 16MHz = 3418  */
 
 }
 
