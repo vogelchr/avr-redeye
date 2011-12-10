@@ -1,0 +1,43 @@
+This is a implementation of the HP RedEye infrared protocol used
+on HP 82240A printers as used for printing from their great graphing
+calculators.
+
+This implementation currently works on a Arduino Duemilanove prototyping
+board which has a AVR ATMega328P running at 16 MHz and connected via
+a integrated USB to serial bridge (ft232), but you can easily port it to
+any other AVR with the two standard 8- and 16-bit timers.
+
+AVR Resources:
+
+    This code uses Timer/Counter 0 in Fast-PWM-Mode to create
+    the 32kHz IR carrier, the IR-LED is connected to OC0B/PD5.
+
+    Timer/Counter 1 runs at about a 7th the rate and does the
+    bit-timing, turning off T/C0 (and hence the LED) as needed by the
+    protocol.
+
+    In principle, you could still use T/C1 for PWM, T/C2 is not
+    used at all.
+
+To use this code as is:
+
+Connect a IR LED with the anode connected to arduino digital output 6
+and the cathode connected to ground, with a 100 Ohm resistor or so
+in series.
+
+The actual implmenentation is in avr-redeye.h and .c, there are
+only two relevant functions:
+
+     avr_redeye_init() sets up the timers
+
+     avr_redeye_put(c) puts a character "c" in the buffer to be sent
+     to the printer
+
+There's a little demo script test_redeye.py (written in python, using
+the pyserial module to access the serial port) as a short example.
+
+Read the included .pdf for the exact specification from HP.
+
+
+
+
