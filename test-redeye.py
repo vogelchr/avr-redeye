@@ -59,7 +59,7 @@ class RedEye(object) :
 			# 27 251 : start underlining
 			self.ser.write('\033\373')
 		else :
-			# 27 250 : start underlining
+			# 27 250 : stop underlining
 			self.ser.write('\033\372')
 		self.ser.flush()
 
